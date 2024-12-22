@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Timetable</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Teacher Timetable</h1>
+
+    <!-- Render each teacher's timetable -->
+    <% 
+        // Parse the passed sectionTimetables back to an object
+        const timetables = JSON.parse(sectionTimetables);
+        
+        // Create an object to store teacher timetables
+        const teacherTimetables = {};
+
+        // Generate teacher timetables from sectionTimetables
+        Object.keys(timetables).forEach(section => {
+            const days = timetables[section];
+            Object.keys(days).forEach(day => {
+                const slots = days[day];
+                slots.forEach(slot => {
+                    if (slot.teacher) {
+                        // Ensure teacher entry exists
+                        if (!teacherTimetables[slot.teacher]) {
+                            teacherTimetables[slot.teacher] = {};
+                        }
+
+                        // Ensure day entry exists for the teacher
+                        if (!teacherTimetables[slot.teacher][day]) {
+                            teacherTimetables[slot.teacher][day] = [];
+                        }
+
+                        // Add slot to teacher's timetable
+                        teacherTimetables[slot.teacher][day].push({
+                            time: slot.time,
+                            subject: slot.subject,
+                            section: section
+                        });
+                    }
+                });
+            });
+        });
+        
+        // Now, we have the teacherTimetables object ready to render for each teacher
+    %>
+
+    <!-- Loop through the teachers and render their timetable -->
+    <% Object.keys(teacherTimetables).forEach(teacher => { %>
+        <h2><%= teacher %></h2>
+
+        <table id="timetable">
+            <thead>
+                <tr>
+                    <th>Day / Time</th>
+                    <th>09:00 - 10:00</th>
+                    <th>10:00 - 11:00</th>
+                    <th>11:00 - 11:30</th> <!-- Break Slot -->
+                    <th>11:30 - 12:30</th>
+                    <th>12:30 - 01:30</th>
+                    <th>01:30 - 02:30</th> <!-- Lunch Slot -->
+                    <th>02:30 - 03:30</th>
+                    <th>03:30 - 04:30</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% 
+                    // Define the order of days
+                    const orderedDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+                    orderedDays.forEach(day => { 
+                %>
+                    <tr>
+                        <th><%= day %></th>
+                        <% const daySchedule = teacherTimetables[teacher][day] || []; %>
+                        
+                        <% ["09:00 - 10:00", "10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 01:30", "01:30 - 02:30", "02:30 - 03:30", "03:30 - 04:30"].forEach(slot => { %>
+                            <td>
+                                <% if (slot === "11:00 - 11:30") { %>
+                                    BREAK
+                                <% } else if (slot === "01:30 - 02:30") { %> 
+                                    LUNCH
+                                <% } else { %>
+                                    <% 
+                                        // Find the schedule entry for this time slot
+                                        const entry = daySchedule.find(item => item.time === slot); 
+                                    %>
+                                    <% if (entry) { %>
+                                        <strong><%= entry.subject %></strong><br>
+                                        <small><%= entry.section %></small>
+                                    <% } else { %>
+                                        ---
+                                    <% } %>
+                                <% } %>
+                            </td>
+                        <% }); %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% }); %>
+
+</body>  
+</html>

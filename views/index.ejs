@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classroom Timetable Creator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Classroom Allocation Timetable</h1>
+
+    <% const sections = ['A','B','C','D']; %>
+    <% const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]; %>
+    <% const breakSlots ={Monday: "B", Tuesday: "R", Wednesday: "E", Thursday: "A", Friday: "K"}; %>
+    <% const lunchSlots = {Monday: "L", Tuesday: "U", Wednesday: "N", Thursday: "C", Friday: "H"}; %>
+
+    <h2>Timetable</h2>
+    <% sections.forEach((section) => { %> 
+        <table id="timetable">
+            <thead>
+                <tr>
+                    <th>Day / Time</th>
+                    <th>9:00 - 10:00</th>
+                    <th>10:00 - 11:00</th>
+                    <th>11:00-11:30</th>
+                    <th>11:30 - 12:30</th>
+                    <th>12:30 - 1:30</th>
+                    <th>1:30-2:30</th>
+                    <th>2:30 - 3:30</th>
+                    <th>3:30 - 4:30</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% days.forEach((day) => { %>
+                <tr data-day="<%=day%>" data-section="section <%=section%>">
+                    <th><%=day%></th>
+                    <td class="slot" data-time="09:00 - 10:00"></td>
+                    <td class="slot" data-time="10:00 - 11:00"></td>
+                    <td class="break" colspan="1"><%= breakSlots[day] %></td>
+                    <td class="slot" data-time="11:30 - 12:30"></td>
+                    <td class="slot" data-time="12:30 - 01:30"></td>
+                    <td class="lunch-break" colspan="1"><%= lunchSlots[day] %></td>
+                    <td class="slot" data-time="02:30 - 03:30"></td>
+                    <td class="slot" data-time="03:30 - 04:30"></td>
+                </tr> 
+                <% }) %>
+            </tbody>
+        </table>
+    <%})%>
+
+    <button id="btn">Teacher Time Table</button>
+
+    <script src="/script.js" defer></script>
+</body>
+</html>
+
+

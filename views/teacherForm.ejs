@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers</title>
+    <link rel="stylesheet" href="/teacherForm.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Teachers List</h1>
+
+        <!-- Form to add a new teacher -->
+        <h2>Add New Teacher</h2>
+        <form action="/addTeacher" method="POST">
+            <label for="name">Teacher Name:</label>
+            <input type="text" name="name" required>
+            
+            <label for="subjects">Subjects (comma separated):</label>
+            <input type="text" name="subjects" required>
+            
+            <button type="submit">Add Teacher</button>
+        </form>
+    </div>
+</body>
+</html>

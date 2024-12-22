@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Timetable</title>
+</head>
+<body>
+    <h1>Timetable</h1>
+    
+    <!-- Section Timetables -->
+    <h2>Section Timetables</h2>
+    
+    <% 
+    const sections = sectionTimetables || {}; 
+    const timeSlots = [
+        "09:00 - 10:00", 
+        "10:00 - 11:00", 
+        "11:00 - 11:30 (Break)", 
+        "11:30 - 12:30", 
+        "12:30 - 01:30", 
+        "01:30 - 02:30 (Lunch Break)", 
+        "02:30 - 03:30", 
+        "03:30 - 04:30"
+    ]; 
+    const daysOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    
+    // Mapping of days to break letters
+    const breakLetters = {
+        "Monday": "B",
+        "Tuesday": "R",
+        "Wednesday": "E",
+        "Thursday": "A",
+        "Friday": "K",
+    };
+    %>
+    
+    <% if (Object.keys(sections).length === 0) { %>
+        <p>No section timetable data available.</p>
+    <% } else { %>
+        <% Object.keys(sections).forEach(section => { %>
+            <h3><%= section %></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <% timeSlots.forEach(slot => { %>
+                            <th><%= slot %></th>
+                        <% }); %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% daysOrder.forEach(day => { %>
+                        <tr>
+                            <td><%= day %></td>
+                            <% timeSlots.forEach(slot => { %>
+                                <td>
+                                    <% 
+                                    if (slot.includes("Break")) { 
+                                        const breakLetter = breakLetters[day]; // Get the corresponding letter for the day
+                                    %>
+                                        <div class="break"><%= breakLetter %></div>
+                                    <% } else { 
+                                        const entry = sections[section][day]?.find(e => e.time === slot); // Check if entry exists
+                                        if (entry) { 
+                                    %>
+                                        <strong><%= entry.subject %></strong><br>
+                                        (<%= entry.teacher %>)
+                                    <% } else { %>
+                                        -
+                                    <% } } %>
+                                </td>
+                            <% }); %>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% }); %>
+    <% } %>
+</body>
+</html>

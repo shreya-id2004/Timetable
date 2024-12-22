@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/home.css"> <!-- Link to the external CSS file -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to the School Timetable System</h1>
+            <% if (user) { %>
+                <p class="greeting">Hello, <%= user.username %>! <span class="welcome-icon">👋</span></p>
+            <% } else { %>
+                <p class="greeting">Please log in to access your timetable.</p>
+            <% } %>
+        </header>
+
+        <!-- Button group for core features -->
+        <div class="button-group">
+            <form action="/" method="GET">
+                <button class="main-btn" type="submit">View Timetable</button>
+            </form>
+            <form action="/addTeacher" method="GET">
+                <button class="main-btn" type="submit">Add Teacher</button>
+            </form>
+            <form action="/addSubject" method="GET">
+                <button class="main-btn" type="submit">Add Subject</button>
+            </form>
+        </div>
+
+        <!-- Additional Section for More Info -->
+        <section class="info-section">
+            <h2>Explore More</h2>
+            <p>Need help? Contact us or explore other features.</p>
+            <div class="info-links">
+                <a href="/about" class="info-link">About Us</a>
+                <a href="/contact" class="info-link">Contact Support</a>
+            </div>
+        </section>
+
+        <!-- Logout link -->
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 School Timetable System. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+    <link rel="stylesheet" href="/subjectForm.css"> <!-- Linking external CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Add Subject</h1>
+        <form action="/addSubject" method="POST">
+            <label for="name">Subject Name:</label>
+            <input type="text" name="name" required>
+            
+            <label for="creditHours">Credit Hours:</label>
+            <input type="number" name="creditHours" required>
+            
+            <label for="isLab">Is Lab:</label>
+            <input type="checkbox" name="isLab">
+            
+            <button type="submit">Add Subject</button>
+        </form>
+    </div>
+</body>
+</html>
