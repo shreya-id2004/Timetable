@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers List</title>
+    <style>
+        /* Reset margin and padding for consistent cross-browser styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            color: #555;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teachers and Their Subjects</h1>
+
+    <!-- Check if there are any teachers -->
+    <% if (teachers.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through the teachers and display their data -->
+                <% teachers.forEach(teacher => { %>
+                    <tr>
+                        <td><%= teacher.teacher %></td>
+                        <td><%= teacher.subject.join(', ') %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No teachers available.</p>
+    <% } %>
+</body>
+</html>

@@ -49,6 +49,7 @@ async function main() {
   await mongoose.connect("mongodb://localhost:27017/school");
 }
 
+//for the login and signup page
 app.use("/",userRouter);
 
 // Route to show the add subject form
@@ -65,10 +66,10 @@ app.post('/addSubject', async (req, res) => {
           creditHours,
           isLab: isLab === 'on'  // checkbox returns 'on' if checked
       });
-      await Subject.register(newSubject);
-      res.send('Subject added successfully!');
+      await newSubject.save();
+      res.redirect('/addSubject');
   } catch (err) {
-      res.send('Error adding subject');
+    res.send('Error adding teacher');
   }
 });
 
@@ -83,13 +84,13 @@ app.post('/addTeacher', async (req, res) => {
   const subjectList = subjects.split(',').map(subject => subject.trim());
   try {
       const newTeacher = new Teacher({
-          teacher: name,  // Correct field name from your schema
-          subject: subjectList // Ensure alignment with your schema
+          teacher: name,  
+          subject: subjectList 
       });
-      await newTeacher.save(); // Use `save` method to save the document
-      res.send('Teacher added successfully!');
+      await newTeacher.save(); 
+      res.redirect('/addTeacher');
   } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error(err); 
       res.send('Error adding teacher');
   }
 });
@@ -97,7 +98,7 @@ app.post('/addTeacher', async (req, res) => {
 // Route to get all subjects
 app.get('/getSubjects', async (req, res) => {
   try {
-      const subjects = await Subject.find(); // Fetch all subjects
+      const subjects = await Subject.find(); 
       res.json(subjects);
   } catch (err) {
       console.error(err);
@@ -108,7 +109,7 @@ app.get('/getSubjects', async (req, res) => {
 // Route to get all teachers
 app.get('/getTeachers', async (req, res) => {
   try {
-      const teachers = await Teacher.find(); // Fetch all teachers
+      const teachers = await Teacher.find();
       res.json(teachers);
   } catch (err) {
       console.error(err);
@@ -116,8 +117,24 @@ app.get('/getTeachers', async (req, res) => {
   }
 });
 
-
-
+app.get('/subjectList', async (req, res) => {
+  try {
+      const subjects = await Subject.find(); 
+      res.render('subjectList.ejs', { subjects });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching subjects');
+  }
+});
+app.get('/teacherList', async (req, res) => {
+  try {
+      const teachers = await Teacher.find();
+      res.render('teacherList.ejs', { teachers });
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching teachers');
+  }
+});
 
 async function fetchTimetableData() {
   try {
@@ -128,7 +145,6 @@ async function fetchTimetableData() {
       return {}; // Return empty data or mock data for development
   }
 }
-
 
 // Route to render the main timetable page
 app.get('/', async (req, res) => {
@@ -141,118 +157,8 @@ app.get('/', async (req, res) => {
   }
 });
 
-/// Route to render the teacher timetable page
-app.get('/teacher', async (req, res) => {
-  try {
-    const sectionTimetables = await fetchTimetableData();
-
-    // Create an object to store teacher timetables
-    const teacherTimetables = {};
-
-    // Generate teacher timetables from sectionTimetables
-    Object.keys(sectionTimetables).forEach(section => {
-      const days = sectionTimetables[section];
-      Object.keys(days).forEach(day => {
-        const slots = days[day];
-        slots.forEach(slot => {
-          if (slot.teacher) {
-            // Ensure teacher entry exists
-            if (!teacherTimetables[slot.teacher]) {
-              teacherTimetables[slot.teacher] = {};
-            }
-
-            // Ensure day entry exists for the teacher
-            if (!teacherTimetables[slot.teacher][day]) {
-              teacherTimetables[slot.teacher][day] = [];
-            }
-
-            // Add slot to teacher's timetable
-            teacherTimetables[slot.teacher][day].push({
-              time: slot.time,
-              subject: slot.subject,
-              section: section
-            });
-          }
-        });
-      });
-    });
-
-
-    // Pass the same data for sectionTimetables to the teacher timetable view
-    res.render('teacher.ejs', { 
-      sectionTimetables: JSON.stringify(sectionTimetables),
-      teacherTimetables: JSON.stringify(teacherTimetables),
-  });
-  } catch (err) {
-    res.status(500).send('Error generating teacher timetable');
-  }
-});
-
-
 app.listen(8080,(req,res)=>{
     console.log("server is running");
 })
 
 //AXIOS for making HTTP requests between the express app and flask api 
-
-
-// const Timetable = require("./models/timetable");
-// const {router:timetableRoutes, generateTimetable } = require('./router/timetable');
-// app.use("/timetable", timetableRoutes);
-
-
-
-// let t1 = new Timetable({
-//     day: "Monday",
-//     startTime: "9:00",
-//     endTime: "10:00",
-//     teacher: "Mr. Smith",
-//     subject: "Mathematics",
-//     classroom: "Room 101"
-// });
-
-// t1.save()
-// .then(() => console.log("Timetable saved successfully"))
-// .catch((err)=>console.log(err));
-
-// app.get('/',(req,res)=>{
-//     res.render("index.ejs");
-// })
-
-// app.get('/', (req, res) => {
-//   try {
-//       const { sectionTimetables } = generateTimetable();
-//       //console.log("Generated Timetables:" , sectionTimetables);
-//       //console.log(JSON.stringify(sectionTimetables));
-//       res.render('server.ejs', { sectionTimetables : JSON.stringify(sectionTimetables)}); // Pass data to index.ejs
-//   } catch (err) {
-//       console.error("Error generating timetable:", err);
-//       res.status(500).send("Error generating timetable");
-//   }
-// });
-
-// Teacher Timetable Route
-// app.get('/teacher', (req, res) => {
-//   try {
-//       const { teacherTimetables } = generateTimetable();
-//       res.render("teacher.ejs", { teacherTimetables });
-//   } catch (err) {
-//       console.error("Error generating teacher timetables:", err);
-//       res.status(500).send("Internal Server Error");
-//   }
-// });
-
-// app.get('/debug',(req,res)=>{
-//   const sectionTimetables = generateTimetable();
-//   res.json(sectionTimetables);
-// })
-
-// app.get('/teacher',(req,res)=>{
-//   try {
-//     const { teacherTimetable } = generateTimetable();
-//     res.render("teacher.ejs", { teacherTimetable });
-//   } catch (err) {
-//     console.error("Error generating timetable:", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// })

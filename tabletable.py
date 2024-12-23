@@ -56,10 +56,15 @@ def shuffle_list(lst):
 def initialize_teacher_schedule():
     return {teacher["name"]: {day: [False] * len(timeSlots) for day in days} for teacher in teachers}
 
+#teacher_selection_index : trackss which teacher to assign to each subject
+
+#section_teacher_map : tracks which teacher is assigned to which subject in which section
+
 def initialize_teacher_selection_index():
     teacher_selection_index = {subject["name"]: 0 for subject in subjects}
     section_teacher_map = {section: {subject["name"]: None for subject in subjects} for section in sections}
     return teacher_selection_index, section_teacher_map
+
 
 def select_teacher(subject, eligible_teachers, section, teacher_selection_index, section_teacher_map , teacher_load):
     if section_teacher_map[section][subject["name"]] is None:
@@ -73,6 +78,7 @@ def select_teacher(subject, eligible_teachers, section, teacher_selection_index,
 
     return section_teacher_map[section][subject["name"]]
 
+#avoids consecutive assignments
 def is_teacher_available(teacher, day, slot_index, teacher_schedule, teacher_last_slot_per_day):
     return (
         not teacher_schedule[teacher][day][slot_index] and
@@ -91,6 +97,7 @@ def can_assign_lab(subject, slot_index, daily_lectures):
 def find_eligible_subject(shuffled_subjects, day, slot_index, daily_lectures, section, teacher_schedule,
                           teacher_last_slot_per_day, lecture_count, subject_count_per_day, weekly_lab_count,
                           lab_assigned_per_day, teacher_selection_index, section_teacher_map,teacher_load):
+
     for subject in shuffled_subjects:
         eligible_teachers = [
             teacher["name"]
@@ -127,6 +134,7 @@ def auto_fill_timetable(section,global_teacher_schedule,teacher_load):
     teacher_last_slot_per_day = {day: {} for day in days}
     lab_assigned_per_day = {day: 0 for day in days}
 
+    # iterate over Days in week
     for day in days:
         subject_count_per_day = {day: {}}
         daily_lectures = 0
