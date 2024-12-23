@@ -10,14 +10,15 @@
 <body>
     <div class="container">
         <header>
-            <h1>Welcome to the School Timetable System</h1>
+            <h1>Welcome to the Automated Timetable Generation System</h1>
             <% if (user) { %>
-                <p class="greeting">Hello, <%= user.username %>! <span class="welcome-icon">👋</span></p>
+                <p class="greeting"><b>Hello, <%= user.username %></b></p>
             <% } else { %>
                 <p class="greeting">Please log in to access your timetable.</p>
             <% } %>
         </header>
 
+    
         <!-- Button group for core features -->
         <div class="button-group">
             <form action="/" method="GET">
@@ -31,22 +32,21 @@
             </form>
         </div>
 
-        <!-- Additional Section for More Info -->
-        <section class="info-section">
-            <h2>Explore More</h2>
-            <p>Need help? Contact us or explore other features.</p>
-            <div class="info-links">
-                <a href="/about" class="info-link">About Us</a>
-                <a href="/contact" class="info-link">Contact Support</a>
-            </div>
-        </section>
+         <!-- Informational section -->
+         <div class="info-section">
+                            <h2>About the System</h2>
+                <p>The College Timetable System streamlines the management of teachers, subjects, and schedules. It enables you to effortlessly add new instructors, define course subjects, and organize or review timetables for the semester.</p>
+                <p>Use the navigation buttons above to explore the features and efficiently manage your academic data.</p>
+
+        </div>
+        
 
         <!-- Logout link -->
         <a href="/logout" class="logout-link">Logout</a>
     </div>
 
     <footer>
-        <p>&copy; 2024 School Timetable System. All rights reserved.</p>
+        <p>&copy; 2024 College Timetable System. All rights reserved.</p>
     </footer>
 </body>
 </html>

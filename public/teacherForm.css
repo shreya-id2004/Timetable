@@ -2,9 +2,8 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    
 }
-
 /* Body styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,7 +17,7 @@ body {
 /* Container Styling */
 .container {
     background-color: #ffffff;
-    width: 80%;
+    width: 400px;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -46,14 +45,22 @@ label {
 }
 
 /* Input Fields Styling */
-input[type="text"] {
+input[type="text"]{
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 16px;
+    transition: border-color 0.3s;
 }
+
+/* Input Focus Styling */
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
 
 /* Button Styling */
 button {
@@ -68,41 +75,18 @@ button {
     transition: background-color 0.3s;
 }
 
-a{
-    text-decoration: none;
-    color: #4CAF50;
-    font-size: 18px;
-    font-weight: bold;
-}
-
 /* Button Hover Effect */
 button:hover {
     background-color: #45a049;
 }
-
-/* Table Styling */
-table {
-    width: 100%;
-    margin-top: 30px;
-    border-collapse: collapse;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+a{
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 /* Responsive Styling */
@@ -116,7 +100,7 @@ tr:nth-child(even) {
         font-size: 24px;
     }
 
-    input[type="text"],
+    input[type="text"]
     button {
         font-size: 14px;
     }
