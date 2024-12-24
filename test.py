@@ -35,8 +35,7 @@ teachers = [
     for teacher in teachers_data
 ]
 
-subjects
-teachers
+
 
 print("Subjects:", subjects)
 print("Teachers:", teachers)

@@ -13,26 +13,33 @@ subjects = [
     {"name": "FSD Lab", "creditHours": 3, "isLab": True},
     {"name": "ATC", "creditHours": 3, "isLab": False},
     {"name": "ATC tutorial", "creditHours": 3, "isLab": True},
-    {"name": "SPM", "creditHours": 3, "isLab": False},
+    {"name": "SPEM", "creditHours": 3, "isLab": False},
     {"name": "AI", "creditHours": 3, "isLab": False},
     {"name": "RM", "creditHours": 2, "isLab": False},
 ]
 
 # Teachers data
 teachers = [
-    {"name": "annapuna", "subjects": ["CN", "CN Lab"]},
-    {"name": "suresh", "subjects": ["CN", "CN Lab"]},
-    {"name": "mubeen", "subjects": ["FSD", "FSD Lab"]},
-    {"name": "james", "subjects": ["FSD", "FSD Lab"]},
-    {"name": "Rashmi", "subjects": ["ATC", "ATC tutorial"]},
-    {"name": "kumar", "subjects": ["ATC", "ATC tutorial"]},
-    {"name": "janardhana", "subjects": ["SPM"]},
-    {"name": "megha", "subjects": ["SPM"]},
+    {"name": "Janardhana", "subjects": ["SPEM"]},
+    {"name": "Annapurna", "subjects": ["CN", "CN Lab"]},
+    {"name": "Usha", "subjects": ["CN", "CN Lab"]},
+    {"name": "Rashmi", "subjects": ["ATC", "ATC Lab"]},
+    {"name": "Anitha", "subjects": ["ATC", "ATC Lab"]},
+    {"name": "Mubeen", "subjects": ["FSD", "FSD Lab"]},
+    {"name": "Padmini", "subjects": ["FSD", "FSD Lab"]},
+     {"name": "Divya shree", "subjects": ["FSD", "FSD Lab"]},
     {"name": "Rekha", "subjects": ["AI"]},
-    {"name": "vinay", "subjects": ["AI"]},
-    {"name": "Rajesh", "subjects": ["RM"]},
-    {"name": "alok", "subjects": ["RM"]},
+    {"name": "Sobia", "subjects": ["RM"]},
+    {"name": "Mahesha", "subjects": ["SPEM"]},
+    {"name":"Viday Raj", "subjects": ["SPEM"]},
+    {"name": "Mohammed Adnan", "subjects": ["AI"]},
+    {"name":"Vishnu Kanth","subjects":["AI"]},
+    {"name": "Vidya", "subjects": ["RM"]},
+    {"name":"Gajendra","subjects":["RM"]},
+    {"name": "Lavanya", "subjects": ["EVS"]},
+    
 ]
+
 
 # Sections, days, and time slots
 sections = ["section A", "section B", "section C", "section D"]
@@ -56,8 +63,8 @@ def shuffle_list(lst):
 def initialize_teacher_schedule():
     return {teacher["name"]: {day: [False] * len(timeSlots) for day in days} for teacher in teachers}
 
-#teacher_selection_index : trackss which teacher to assign to each subject
 
+#teacher_selection_index : trackss which teacher to assign to each subject
 #section_teacher_map : tracks which teacher is assigned to which subject in which section
 
 def initialize_teacher_selection_index():
